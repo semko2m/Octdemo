@@ -29,4 +29,9 @@ export class ProfileService {
   public deleteProfile(id: number) {
     return this.httpClientOctimineService.delete('/profiles/' + id);
   }
+
+  public startTraining(id:number, data:any){
+    return this.httpClientOctimineService.put('/profiles/' + id,data);
+
+  }
 }

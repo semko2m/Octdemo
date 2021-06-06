@@ -2,8 +2,8 @@
   <mat-spinner *ngIf="profiles.length === 0"></mat-spinner>
   <div class="mdc-layout-grid">
       <button mat-button style="width: 100%; margin: 15px " (click)="resetCounter()">
-        <mat-icon matBadge="{{counter}}" matBadgeColor="warn" style="margin-right: 10px">refresh</mat-icon>
-        Refresh all statuses
+        <mat-icon  matBadge="{{counter}}" matBadgeColor="warn" style="margin-right: 10px">refresh</mat-icon>
+        <p class="label-refresh" >Refresh all statuses</p>
       </button>
 
         <mat-card *ngFor="let profile of profiles" style="margin: 15px">
@@ -25,8 +25,8 @@
           <mat-card-actions>
             <button mat-button [routerLink]="['/profiles', profile.id]">Check Details</button>
             <button mat-button (click)="updateStatus(profile)">Update Status</button>
-            <button mat-button [routerLink]="['/profiles', profile.id]" *ngIf="profile.status !== profileStatuses.running">Start Training</button>
-            <button mat-button (click)="deleteProfile(profile)" *ngIf="profile.status !== profileStatuses.running">Delete Profile</button>
+            <button mat-button (click)="startTraining(profile)" *ngIf="profile.status !== profileStatuses.running && profile.status!==profileStatuses.started && !globalRunning">Start Training</button>
+            <button mat-button (click)="deleteProfile(profile)" *ngIf="profile.status !== profileStatuses.running && profile.status!==profileStatuses.started && !globalRunning">Delete Profile</button>
           </mat-card-actions>
         </mat-card>
 

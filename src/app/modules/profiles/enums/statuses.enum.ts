@@ -2,9 +2,9 @@
  * Enum. This is statuse of profile
  */
 export enum Statuses {
-  created,
-  started,
   running,
+  started,
+  created,
   finished,
   failed
 }

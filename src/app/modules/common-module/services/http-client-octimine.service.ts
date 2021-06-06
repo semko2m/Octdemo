@@ -98,4 +98,15 @@ export class HttpClientOctimineService {
     let options:any = {observe: "response"};
     return this.httpClient.delete(urlString,options).pipe(retry(3), catchError(this.handleError));
   }
+
+  /**
+   * Send put to the backend
+   * @param url
+   * @param data
+   */
+  public put(url: string, data: any) {
+    const urlString = this.REST_API_SERVER + url;
+    let options:any = {observe: "response"};
+    return this.httpClient.put(urlString,  data, options).pipe(retry(3), catchError(this.handleError));
+  }
 }

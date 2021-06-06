@@ -25,6 +25,8 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
   public counter = 60;
   tick = 1000;
 
+  globalRunning = false;
+
   constructor(private profileService: ProfileService, private httpClientOctimineService: HttpClientOctimineService) {
   }
 
@@ -34,6 +36,7 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
     this.profileService.getProfiles<ProfilesModel[]>(this.httpClientOctimineService.first, true).pipe(takeUntil(this.destroy$)).subscribe((res: HttpResponse<any>) => {
       console.log(res);
       this.profiles = res.body;
+      this.checkIfTrainingIsRunning()
     })
     this.startCounter();
   }
@@ -62,6 +65,7 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
     this.profileService.getProfiles(this.httpClientOctimineService.first).pipe(takeUntil(this.destroy$)).subscribe((res: HttpResponse<any>) => {
       console.log(res);
       this.profiles = res.body;
+      this.checkIfTrainingIsRunning()
     })
   }
 
@@ -72,6 +76,7 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
       this.profileService.getProfiles(this.httpClientOctimineService.prev).pipe(takeUntil(this.destroy$)).subscribe((res: HttpResponse<any>) => {
         console.log(res);
         this.profiles = res.body;
+        this.checkIfTrainingIsRunning()
       })
     }
   }
@@ -83,6 +88,7 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
       this.profileService.getProfiles(this.httpClientOctimineService.next).pipe(takeUntil(this.destroy$)).subscribe((res: HttpResponse<any>) => {
         console.log(res);
         this.profiles = res.body;
+        this.checkIfTrainingIsRunning()
       })
     }
   }
@@ -93,6 +99,7 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
     this.profileService.getProfiles(this.httpClientOctimineService.last).pipe(takeUntil(this.destroy$)).subscribe((res: HttpResponse<any>) => {
       console.log(res);
       this.profiles = res.body;
+      this.checkIfTrainingIsRunning()
     })
   }
 
@@ -114,6 +121,7 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
           oneProfile = res;
         }
       });
+      this.checkIfTrainingIsRunning()
     })
   }
 
@@ -127,7 +135,30 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
           object.splice(index, 1);
         }
       });
+      this.checkIfTrainingIsRunning()
     })
+  }
+
+  startTraining(profile: ProfilesModel) {
+    // @ts-ignore
+    this.profileService.startTraining(profile.id, {status: this.profileStatuses.running, text:profile.text}).pipe(takeUntil(this.destroy$)).subscribe((res: HttpResponse<any>) => {
+      this.profiles.forEach(oneProfile => {
+        if (oneProfile.id === profile.id) {
+          // @ts-ignore
+          oneProfile.status = this.profileStatuses.running;
+        }
+      });
+      this.checkIfTrainingIsRunning();
+    })
+  }
+
+  checkIfTrainingIsRunning() {
+    this.profiles.forEach(oneProfile => {
+      if (oneProfile.status === this.profileStatuses.running) {
+        // @ts-ignore
+        this.globalRunning = true;
+      }
+    });
   }
 
 
