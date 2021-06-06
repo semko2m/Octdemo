@@ -1,0 +1,42 @@
+<div style="padding: 13px;">
+  <mat-spinner *ngIf="profiles.length === 0"></mat-spinner>
+  <div class="mdc-layout-grid">
+      <button mat-button style="width: 100%; margin: 15px " (click)="resetCounter()">
+        <mat-icon matBadge="{{counter}}" matBadgeColor="warn" style="margin-right: 10px">refresh</mat-icon>
+        Refresh all statuses
+      </button>
+
+        <mat-card *ngFor="let profile of profiles" style="margin: 15px">
+          <mat-card-header>
+            <mat-card-title>{{profile.id}}</mat-card-title>
+            <mat-card-subtitle>
+              <p *ngIf="profile.status === profileStatuses.started" style="color: aqua">Started</p>
+              <p *ngIf="profile.status === profileStatuses.created" style="color: blue">Created</p>
+              <p *ngIf="profile.status === profileStatuses.failed" style="color: red">Failed</p>
+              <p *ngIf="profile.status === profileStatuses.finished" style="color: green">Finished</p>
+              <p *ngIf="profile.status === profileStatuses.running" style="color: brown">Running</p>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              {{profile.text}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button [routerLink]="['/profiles', profile.id]">Check Details</button>
+            <button mat-button (click)="updateStatus(profile)">Update Status</button>
+            <button mat-button [routerLink]="['/profiles', profile.id]" *ngIf="profile.status !== profileStatuses.running">Start Training</button>
+            <button mat-button (click)="deleteProfile(profile)" *ngIf="profile.status !== profileStatuses.running">Delete Profile</button>
+          </mat-card-actions>
+        </mat-card>
+
+  </div>
+
+
+</div>
+<div>
+  <button (click) ="firstPage()" mat-button> First</button>
+  <button (click) ="previousPage()" mat-button> Previous</button>
+  <button (click) ="nextPage()" mat-button> Next</button>
+  <button (click) ="lastPage()" mat-button> Last</button>
+</div>

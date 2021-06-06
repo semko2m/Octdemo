@@ -1,0 +1,14 @@
+<div class="mdc-layout-grid" xmlns="http://www.w3.org/1999/html">
+  <div class="mdc-layout-grid__inner">
+    <div class="mdc-layout-grid__cell" >
+      <form [formGroup]="profileForm" (submit)="saveProfile()">
+        <mat-form-field class="example-full-width">
+          <mat-label>Text</mat-label>
+          <input  matInput formControlName="text" id="text">
+        </mat-form-field>
+        <br>
+        <button type="submit" [disabled]="!profileForm.valid" mat-flat-button>Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
