@@ -26,7 +26,7 @@
             <button mat-button [routerLink]="['/profiles', profile.id]">Check Details</button>
             <button mat-button (click)="updateStatus(profile)">Update Status</button>
             <button mat-button (click)="startTraining(profile)" *ngIf="profile.status !== profileStatuses.running && profile.status!==profileStatuses.started && !globalRunning">Start Training</button>
-            <button mat-button (click)="deleteProfile(profile)" *ngIf="profile.status !== profileStatuses.running && profile.status!==profileStatuses.started && !globalRunning">Delete Profile</button>
+            <button mat-button (click)="deleteProfile(profile)" *ngIf="profile.status !== profileStatuses.running && profile.status!==profileStatuses.started">Delete Profile</button>
           </mat-card-actions>
         </mat-card>
 
