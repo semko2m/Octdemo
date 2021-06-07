@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {takeUntil} from "rxjs/operators";
 import {HttpResponse} from "@angular/common/http";
 import {Subject} from "rxjs";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -17,7 +18,7 @@ export class CreateProfileComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
 
-  constructor(private profileService: ProfileService, private formBuilder: FormBuilder) {
+  constructor(private profileService: ProfileService, private formBuilder: FormBuilder, private router : Router) {
     this.createProfileForm();
   }
 
@@ -37,6 +38,7 @@ export class CreateProfileComponent implements OnInit {
       // @ts-ignore
       this.profileService.createProfile({text : this.profileForm.value.text , status : 0}).pipe(takeUntil(this.destroy$)).subscribe((res: HttpResponse<any>)=>{
         console.log(res);
+        this.router.navigate(['/']);
       })
     }
   }

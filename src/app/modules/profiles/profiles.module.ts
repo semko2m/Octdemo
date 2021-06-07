@@ -10,6 +10,7 @@ import {MatButtonModule } from '@angular/material/button';
 import {MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatInputModule} from "@angular/material/input";
 import {MatBadgeModule} from "@angular/material/badge";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {RouterModule} from '@angular/router';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { CreateProfileComponent } from './components/create-profile/create-profile.component';
@@ -32,6 +33,7 @@ import {CommonModuleModule} from "../common-module/common-module.module";
     MatProgressSpinnerModule,
     MatInputModule,
     MatBadgeModule,
+    MatSnackBarModule,
     ReactiveFormsModule,
     FormsModule,
     RouterModule,

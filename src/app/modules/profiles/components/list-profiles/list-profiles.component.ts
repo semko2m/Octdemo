@@ -10,6 +10,8 @@ import {Statuses} from "../../enums/statuses.enum";
 import {takeUntil} from 'rxjs/operators';
 import {Subject, Subscription, timer} from 'rxjs';
 
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-list-profiles',
@@ -25,9 +27,15 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
   public counter = 60;
   tick = 1000;
 
-  globalRunning = false;
+  durationInSeconds = 5;
 
-  constructor(private profileService: ProfileService, private httpClientOctimineService: HttpClientOctimineService) {
+  globalRunning = false;
+  globalFinished = false;
+  globalFailed = false;
+
+  constructor(private profileService: ProfileService,
+              private httpClientOctimineService: HttpClientOctimineService,
+              private _snackBar: MatSnackBar) {
   }
 
 
@@ -141,7 +149,7 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
 
   startTraining(profile: ProfilesModel) {
     // @ts-ignore
-    this.profileService.startTraining(profile.id, {status: this.profileStatuses.running, text:profile.text}).pipe(takeUntil(this.destroy$)).subscribe((res: HttpResponse<any>) => {
+    this.profileService.startTraining(profile.id, {status: this.profileStatuses.running, text: profile.text}).pipe(takeUntil(this.destroy$)).subscribe((res: HttpResponse<any>) => {
       this.profiles.forEach(oneProfile => {
         if (oneProfile.id === profile.id) {
           // @ts-ignore
@@ -157,6 +165,18 @@ export class ListProfilesComponent implements OnInit, OnDestroy {
       if (oneProfile.status === this.profileStatuses.running) {
         // @ts-ignore
         this.globalRunning = true;
+      }
+      if (oneProfile.status === this.profileStatuses.finished) {
+        this.globalFinished = true;
+        // this._snackBar.open('Finished ' + oneProfile.id, 'Close');
+        console.log('Finished ' + oneProfile.id);
+      }
+      if (oneProfile.status === this.profileStatuses.failed) {
+        this.globalFailed = true;
+        console.log('Failed ' + oneProfile.id);
+
+        // alert('Failed ' + oneProfile.id);
+        // this._snackBar.open('Failed ' + oneProfile.id, 'Close');
       }
     });
   }
